@@ -6,7 +6,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TaskController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,7 +41,7 @@ Route::get('/users/[name]', [
 
 Route::get('/about', function () {
     return view('pages.about');
-});
+})->name('about');
 
 // Task 4: redirect the GET URL "log-in" to a URL "login"
 // Put one code line here below
@@ -80,7 +79,7 @@ Route::group(['prefix' => 'admin'], function() {
 // Put one Route Group code line here below
 
 
-Route::get('/app/dashboard', DashboardController::class)->name('dashboard');
+Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
 
 // Task 8: Manage tasks with URL /app/tasks/***.
@@ -88,7 +87,7 @@ Route::get('/app/dashboard', DashboardController::class)->name('dashboard');
 // Put one code line here below
 
 
-Route::resource('/tasks', TaskController:class);
+Route::resource('/tasks', TaskController::class);
 
 
 // End of the /app Route Group
