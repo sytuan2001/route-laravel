@@ -22,17 +22,13 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 // Task 1: point the main "/" URL to the HomeController method "index"
 // Put one code line here below
 
-Route::get('/', [
-    HomeController::class, 'index'
-]);
+Route::get('/', [HomeController::class, 'index']);
 
 // Task 2: point the GET URL "/user/[name]" to the UserController method "show"
 // It doesn't use Route Model Binding, it expects $name as a parameter
 // Put one code line here below
 
-Route::get('/users/{name}', [
-    UserController::class, 'show'
-]);
+Route::get('/user/{name}', [UserController::class, 'show']);
 
 
 // // Task 3: point the GET URL "/about" to the view
@@ -41,21 +37,19 @@ Route::get('/users/{name}', [
 // // Put one code line here below
 
 
-Route::get('/about', function () {
-    return view('pages.about');
-})->name('about');
+Route::view('/about', 'pages.about')->name('about');
 
 // // Task 4: redirect the GET URL "log-in" to a URL "login"
 // // Put one code line here below
 
-Route::get('login', function () {
-    return redirect('log-in');
-});
+//Route::get('login', function () {
+//    return redirect('log-in');
+//})->name('login');
 
 // // Task 5: group the following route sentences below in Route::group()
 // // Assign middleware "auth"
 // // Put one Route Group code line here below
-
+//Route::get('/app/dashboard', DashboardController::class)->middleware(['middleware' => 'auth'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'], function () {
     //
@@ -81,7 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
         // // Put one Route Group code line here below
 
 
-        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/app/dashboard', DashboardController::class)->name('dashboard');
 
 
         // // Task 8: Manage tasks with URL /app/tasks/***.
@@ -89,7 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
         // // Put one code line here below
 
 
-        Route::resource('/tasks', TaskController::class);
+        Route::resource('/app/tasks', TaskController::class);
 
 
         // // End of the /app Route Group

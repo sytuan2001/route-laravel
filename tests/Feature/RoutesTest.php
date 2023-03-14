@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class RoutesTest extends TestCase
 {
-    use RefreshDatabase;
+//    use RefreshDatabase;
 
     public function test_home_screen_shows_welcome()
     {
@@ -24,7 +24,6 @@ class RoutesTest extends TestCase
     {
         $user = User::factory()->create();
         $response = $this->get('/user/' . $user->name);
-
         $response->assertOk();
         $response->assertViewIs('users.show');
     }
@@ -44,10 +43,10 @@ class RoutesTest extends TestCase
 
     public function test_auth_middleware_is_working()
     {
-        $response = $this->get('/app/dashboard');
+        $response = $this->get('/admin/app/dashboard');
         $response->assertRedirect('/login');
 
-        $response = $this->get('/app/tasks');
+        $response = $this->get('/admin/app/tasks');
         $response->assertRedirect('/login');
     }
 
@@ -56,22 +55,21 @@ class RoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/app/tasks');
+        $response = $this->actingAs($user)->get('/admin/app/tasks');
         $response->assertOk();
 
-        $response = $this->actingAs($user)->get('/app/tasks/create');
+        $response = $this->actingAs($user)->get('/admin/app/tasks/create');
         $response->assertOk();
-
-        $response = $this->actingAs($user)->post('/app/tasks', ['name' => 'Test']);
-        $response->assertRedirect('app/tasks');
+        $response = $this->actingAs($user)->post('/admin/app/tasks', ['name' => 'Test', '_token'=>csrf_token()]);
+        $response->assertRedirect('/admin/app/tasks');
 
         $task = Task::factory()->create();
-        $response = $this->actingAs($user)->put('/app/tasks/' . $task->id, ['name' => 'Test 2']);
-        $response->assertRedirect('app/tasks');
+        $response = $this->actingAs($user)->put('/admin/app/tasks/' . $task->id, ['name' => 'Test 2', '_token'=>csrf_token()]);
+        $response->assertRedirect('/admin/app/tasks');
 
         $this->assertDatabaseHas(Task::class, ['name' => 'Test 2']);
-        $response = $this->actingAs($user)->delete('/app/tasks/' . $task->id);
-        $response->assertRedirect('app/tasks');
+        $response = $this->actingAs($user)->delete('/admin/app/tasks/' . $task->id, ['_token'=>csrf_token()]);
+        $response->assertRedirect('admin/app/tasks');
         $this->assertDatabaseMissing(Task::class, ['name' => 'Test 2']);
     }
 
