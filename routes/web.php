@@ -4,8 +4,9 @@ use App\Http\Controllers\Admin\StatsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\TaskController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,7 @@ Route::get('/', [
 // It doesn't use Route Model Binding, it expects $name as a parameter
 // Put one code line here below
 
-Route::get('/users/[name]', [
+Route::get('/users/{name}', [
     UserController::class, 'show'
 ]);
 
@@ -111,7 +112,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function() {
 // Put one code line here below
 
 
-Route::get('/admin/dashboard', Admin/DashboardController::class);
+Route::get('/admin/dashboard', DashboardController::class);
 
 
 // Task 11: point URL /admin/stats to a "Single Action" Admin/StatsController
@@ -125,4 +126,3 @@ Route::get('/admin/stats', Admin/StatsController::class);
 
 // One more task is in routes/api.php
 
-require __DIR__ . '/auth.php';
