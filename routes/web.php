@@ -118,7 +118,7 @@ Route::get('/admin/dashboard', DashboardController::class);
 // Task 11: point URL /admin/stats to a "Single Action" Admin/StatsController
 // Put one code line here below
 
-Route::get('/admin/stats', Admin/StatsController::class);
+Route::get('/admin/stats', StatsController::class);
 
 // End of the /admin Route Group
 
